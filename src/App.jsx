@@ -1,45 +1,37 @@
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import "./App.css"
 
 const App = () => {
-  const [data, setData] = useState([])
-  //   const [country, setCountry] = useState("uk")
+  const [data, setData] = useState({})
+  const [a, setA] = useState("A")
+
+  //   componentDidMount equivilant
+  useEffect(() => {
+    handleFetch()
+  }, [])
+
+  // componentDidUpdate equivilant with specification
+  useEffect(() => {
+    console.log("the data has changed")
+  }, [data])
+
+  //   componentDidUpdate no specific equivilant
+  useEffect(() => {
+    console.log("the component has updated")
+  })
 
   const handleFetch = async () => {
-    // const response = await fetch(`https://covid19-api.com/country?name=${country}&format=json`)
     const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`)
-    console.log(response)
-    const data = await response.json()
-    console.log(data)
-    setData(data)
+    const responseData = await response.json()
+    setData(responseData)
   }
 
   return (
     <div className="App">
       <h1>Movie DB Popular List</h1>
-      {/* <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          setCountry(e.target.country.value)
-          handleFetch()
-        }}
-      >
-        <input type="text" name="country" />
-        <button type="submit">Submit</button>
-      </form> */}
-      {/* <p>{data ? data : "Click the button"}</p> */}
       <button onClick={handleFetch}>click</button>
-      {/* <div>
-        {data && (
-          <>
-            <p>{data.country}</p>
-            <p>{data.code}</p>
-            <p>{data.confirmed}</p>
-            <p>{data.recovered}</p>
-          </>
-        )}
-      </div> */}
+
       <ol>
         {data.results &&
           data.results.map((movie, index) => {
@@ -54,5 +46,35 @@ const App = () => {
     </div>
   )
 }
+
+// class App extends React.Component {
+//   constructor() {
+//     super()
+//     this.state = {
+//       data: "This is my super duper data",
+//     }
+//   }
+//   //   state = {
+//   //     data: "This is my super duper data",
+//   //   }
+
+//   componentDidMount() {
+//     console.log("The component has finished mounting")
+//     // this.setState({ data: "This is my NEW data" })
+//   }
+
+//   componentDidUpdate() {
+//     console.log("the component just updated, woo!")
+//   }
+
+//   render() {
+//     return (
+//       <div className="App">
+//         <h1>Hello Lifecycle Methods</h1>
+//         <p>{this.state.data}</p>
+//       </div>
+//     )
+//   }
+// }
 
 export default App
