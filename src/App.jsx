@@ -4,6 +4,7 @@ import "./App.css"
 
 const App = () => {
   const [data, setData] = useState({})
+  const [covidData, setCovidData] = useState({})
   const [a, setA] = useState("A")
 
   //   componentDidMount equivilant
@@ -20,6 +21,12 @@ const App = () => {
   useEffect(() => {
     console.log("the component has updated")
   })
+
+  //   const handleCovidFetch = async () => {
+  //     const res = await fetch(`https://covid19-api.com/country?name=${country}&format=json`)
+  //     const json = await res.json()
+  //     setCovidData(json)
+  //   }
 
   const handleFetch = async () => {
     const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`)
