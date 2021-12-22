@@ -1,51 +1,62 @@
-import { useState, useEffect } from "react"
-import { ClipLoader, BeatLoader } from "react-spinners"
 import "./App.css"
+import MovieListing from "./Popular"
+import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom"
 
 const App = () => {
-  const [data, setData] = useState({})
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    handleFetch()
-  }, [])
-
-  const handleFetch = async () => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`
-      )
-      const responseData = await response.json()
-      setData(responseData)
-      // setTimeout(() => setLoading(!loading), 1000)
-      setLoading(!loading)
-    } catch (error) {
-      setError(true)
-    }
-  }
-
-  if (error) {
-    return <h3>Error: Reload the page</h3>
-  }
   return (
     <div className="App">
-      <h1>Movie DB</h1>
-      {loading ? (
-        <ClipLoader loading={loading} width={150} height={5} />
-      ) : (
-        <ol>
-          {data.results &&
-            data.results.map((movie, index) => {
-              return (
-                <li key={index}>
-                  <h4>{movie.original_title}</h4>
-                  <img className="poster" src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="" />
-                </li>
-              )
-            })}
-        </ol>
-      )}
+      <Router>
+        <nav>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/popular">Popular</Link>
+          </li>
+          <li>
+            <Link to="/comingSoon">Coming Soon</Link>
+          </li>
+        </nav>
+
+        <Switch>
+          <Route path="/popular">
+            <MovieListing type="popular" />
+          </Route>
+          <Route path="/comingSoon">
+            <MovieListing type="coming" />
+          </Route>
+          <Route path="/">
+            <HomePage />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  )
+}
+
+const ComingSoon = () => {
+  // fetch the data here
+  return (
+    <div>
+      <h1>Coming soon: ....</h1>
+    </div>
+  )
+}
+
+const HomePage = () => {
+  return (
+    <div>
+      <h1>Welcome to my Movie Site</h1>
+      <Link to="/subpage1">Sub page 1</Link>
+      <Link to="/subpage2">Sub page 2</Link>
+      <Switch>
+        <Route path="/subpage1">
+          <h3>Sub page 1</h3>
+        </Route>
+        <Route path="/subpage2">
+          <h3>Sub page 2</h3>
+        </Route>
+      </Switch>
     </div>
   )
 }
