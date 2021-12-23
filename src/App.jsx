@@ -1,62 +1,41 @@
 import "./App.css"
+import { useState } from "react"
 import MovieListing from "./Popular"
-import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { NavBar } from "./NavBar"
+import { HomePage } from "./HomePage"
+import { FavouritePage } from "./FavouritePage"
 
 const App = () => {
+  const [favourites, setFavourites] = useState([])
+
+  const handleAddFavourite = (item) => {
+    setFavourites([...favourites, item])
+  }
+
+  const handleRemoveFav = (index) => {
+    let temp = [...favourites]
+    temp.splice(index, 1)
+    setFavourites([...temp])
+  }
+
   return (
     <div className="App">
       <Router>
-        <nav>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/popular">Popular</Link>
-          </li>
-          <li>
-            <Link to="/comingSoon">Coming Soon</Link>
-          </li>
-        </nav>
+        <NavBar />
 
         <Switch>
           <Route path="/popular">
-            <MovieListing type="popular" />
+            <MovieListing handleAddFavourite={handleAddFavourite} />
           </Route>
-          <Route path="/comingSoon">
-            <MovieListing type="coming" />
+          <Route path="/favourites">
+            <FavouritePage data={favourites} handleRemoveFav={handleRemoveFav} />
           </Route>
           <Route path="/">
             <HomePage />
           </Route>
         </Switch>
       </Router>
-    </div>
-  )
-}
-
-const ComingSoon = () => {
-  // fetch the data here
-  return (
-    <div>
-      <h1>Coming soon: ....</h1>
-    </div>
-  )
-}
-
-const HomePage = () => {
-  return (
-    <div>
-      <h1>Welcome to my Movie Site</h1>
-      <Link to="/subpage1">Sub page 1</Link>
-      <Link to="/subpage2">Sub page 2</Link>
-      <Switch>
-        <Route path="/subpage1">
-          <h3>Sub page 1</h3>
-        </Route>
-        <Route path="/subpage2">
-          <h3>Sub page 2</h3>
-        </Route>
-      </Switch>
     </div>
   )
 }

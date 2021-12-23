@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { ClipLoader } from "react-spinners"
 
-const Popular = ({ type }) => {
+const Pop = ({ handleAddFavourite }) => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -40,6 +40,7 @@ const Popular = ({ type }) => {
                 <li key={index}>
                   <h4>{movie.original_title}</h4>
                   <img className="poster" src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt="" />
+                  <button onClick={() => handleAddFavourite(movie)}>add to favourites</button>
                 </li>
               )
             })}
@@ -49,4 +50,4 @@ const Popular = ({ type }) => {
   )
 }
 
-export default Popular
+export default Pop
