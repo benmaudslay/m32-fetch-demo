@@ -1,10 +1,10 @@
 import "./App.css"
 import { useState } from "react"
-import MovieListing from "./Popular"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import { NavBar } from "./NavBar"
-import { HomePage } from "./HomePage"
-import { FavouritePage } from "./FavouritePage"
+import MovieListing from "./components/Popular"
+import { NavBar } from "./components/NavBar"
+import { HomePage } from "./components/HomePage"
+import { FavouritePage } from "./components/FavouritePage"
 
 const App = () => {
   const [favourites, setFavourites] = useState([])
